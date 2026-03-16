@@ -1,0 +1,15 @@
+target/
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+.DS_Store
+Thumbs.db
+.env
+*.env
+application-prod.properties
+application-secrets.properties
+*.log
+logs/
+README.md

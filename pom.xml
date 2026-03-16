@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--
+        STEP 1 — No Kafka, No Redis, No Docker.
+        Just Spring Boot + H2 in-memory database.
+
+        H2 = a tiny database that lives in RAM while the app runs.
+        Perfect for development — zero setup, zero config.
+        We replace it with PostgreSQL in Step 4 (Docker step).
+    -->
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.4.0</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>com.notifplatform</groupId>
+    <artifactId>notification-platform</artifactId>
+    <version>1.0.0</version>
+    <name>Notification Platform - Step 1</name>
+
+    <properties>
+        <java.version>21</java.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <!--
+            This flag tells the compiler to allow Java 25 preview features.
+            Also suppresses some compatibility warnings with newer Java.
+        -->
+        <maven.compiler.enablePreview>false</maven.compiler.enablePreview>
+    </properties>
+
+    <dependencies>
+
+        <!-- Spring Web — makes this a REST API -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- Spring Data JPA — talk to DB using Java objects, not raw SQL -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- H2 — in-memory database, zero setup needed -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Validation — @NotNull, @Size etc on request objects -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- Actuator — /actuator/health endpoint for free -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!--
+            NO LOMBOK in Step 1.
+            Lombok is what was causing your Java 25 crash.
+            We write getters/setters/constructors manually here.
+            Clean, no magic, no compatibility issues.
+            We add Lombok back in a later step once the base is solid.
+        -->
+
+        <!-- Test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
