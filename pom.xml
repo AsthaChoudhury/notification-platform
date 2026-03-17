@@ -38,47 +38,32 @@
     </properties>
 
     <dependencies>
-
-        <!-- Spring Web — makes this a REST API -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- Spring Data JPA — talk to DB using Java objects, not raw SQL -->
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-
-        <!-- H2 — in-memory database, zero setup needed -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
-
-        <!-- Validation — @NotNull, @Size etc on request objects -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
-
-        <!-- Actuator — /actuator/health endpoint for free -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-
-        <!--
-            NO LOMBOK in Step 1.
-            Lombok is what was causing your Java 25 crash.
-            We write getters/setters/constructors manually here.
-            Clean, no magic, no compatibility issues.
-            We add Lombok back in a later step once the base is solid.
-        -->
-
-        <!-- Test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
