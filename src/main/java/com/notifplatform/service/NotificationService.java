@@ -6,6 +6,7 @@ import com.notifplatform.dto.NotificationDto.StatusResponse;
 import com.notifplatform.kafka.NotificationEvent;
 import com.notifplatform.model.Notification;
 import com.notifplatform.model.NotificationStatus;
+import com.notifplatform.ratelimit.RateLimiter;
 import com.notifplatform.repository.NotificationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,24 +29,35 @@ public class NotificationService {
     private final EmailSender emailSender;
     private final SmsSender smsSender;
     private final PushSender pushSender;
+    private final RateLimiter rateLimiter;
 
     public NotificationService(
             NotificationRepository repository,
             EmailSender emailSender,
             SmsSender smsSender,
             PushSender pushSender,
+            RateLimiter rateLimiter,
             KafkaTemplate<String, NotificationEvent> kafkaTemplate) {
         this.repository  = repository;
         this.emailSender = emailSender;
         this.smsSender   = smsSender;
         this.pushSender  = pushSender;
         this.kafkaTemplate = kafkaTemplate;
+        this.rateLimiter = rateLimiter;
     }
 
     @Transactional
     public SendResponse send(SendRequest request) {
         log.info("Processing notification for user [{}] via [{}]",
                 request.getUserId(), request.getType());
+        if (!rateLimiter.isAllowed(request.getUserId(), request.getType().name())) {
+            throw new RateLimitExceededException(
+                    String.format("Rate limit exceeded for user %d on %s. " +
+                                    "Max %d requests per minute.",
+                            request.getUserId(),
+                            request.getType().name(),
+                            5));
+        }
 
         Notification notification = new Notification();
         notification.setUserId(request.getUserId());
@@ -159,6 +171,9 @@ public class NotificationService {
         public NotificationNotFoundException(String message) {
             super(message);
         }
+    }
+    public static class RateLimitExceededException extends RuntimeException {
+        public RateLimitExceededException(String message) { super(message); }
     }
     private StatusResponse toStatusResponse(Notification n) {
         StatusResponse r = new StatusResponse();
