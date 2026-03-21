@@ -1,5 +1,3 @@
-version: '3.8'
-
 #
 #   Start everything:  docker-compose up -d
 #   Stop everything:   docker-compose down
