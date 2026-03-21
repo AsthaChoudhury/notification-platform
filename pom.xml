@@ -5,15 +5,6 @@
          http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!--
-        STEP 1 — No Kafka, No Redis, No Docker.
-        Just Spring Boot + H2 in-memory database.
-
-        H2 = a tiny database that lives in RAM while the app runs.
-        Perfect for development — zero setup, zero config.
-        We replace it with PostgreSQL in Step 4 (Docker step).
-    -->
-
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -30,10 +21,7 @@
         <java.version>21</java.version>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
-        <!--
-            This flag tells the compiler to allow Java 25 preview features.
-            Also suppresses some compatibility warnings with newer Java.
-        -->
+
         <maven.compiler.enablePreview>false</maven.compiler.enablePreview>
     </properties>
 
@@ -46,6 +34,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
         </dependency>
 
         <dependency>

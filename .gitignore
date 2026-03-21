@@ -8,8 +8,12 @@ out/
 Thumbs.db
 .env
 *.env
+application-local.properties
+application-secret.properties
 application-prod.properties
-application-secrets.properties
+src/main/resources/application.properties
+src/main/resources/application-local.properties
+src/main/resources/application-prod.properties
 *.log
 logs/
 README.md
