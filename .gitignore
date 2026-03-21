@@ -16,4 +16,3 @@ src/main/resources/application-local.properties
 src/main/resources/application-prod.properties
 *.log
 logs/
-README.md
