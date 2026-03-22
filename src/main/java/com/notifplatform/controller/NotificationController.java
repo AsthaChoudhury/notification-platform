@@ -63,14 +63,14 @@ public class NotificationController {
         return ResponseEntity.ok(service.getSummary());
     }
 
-    @GetMapping("/health")
-    public ResponseEntity<Map<String, String>> health() {
-        return ResponseEntity.ok(Map.of(
-                "status",  "UP",
-                "service", "notification-platform",
-                "step",    "1"
-        ));
-    }
+//    @GetMapping("/health")
+//    public ResponseEntity<Map<String, String>> health() {
+//        return ResponseEntity.ok(Map.of(
+//                "status",  "UP",
+//                "service", "notification-platform",
+//                "step",    "1"
+//        ));
+//    }
 
     @ExceptionHandler(NotificationService.RateLimitExceededException.class)
     public ResponseEntity<Map<String, String>> handleRateLimit(
